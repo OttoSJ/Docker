@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:16-alpine as builder
 
 # The WORKDIR creates a directory that will store all directories and files for the simple node app inside the docker image
 WORKDIR /app
@@ -12,6 +12,7 @@ RUN npm install
 # Note: In a development environment this copy command is redundent as we are using volumes in the yml file which copies all the dir/files already example: (.:/app).
 COPY ./ ./
 
-# This command will start our project
-# Note: Running this file will require -f flag to specify the correct path for this docker dev file.
-CMD ["npm", "run", "start"]
+RUN npm run build
+
+FROM nginx 
+COPY --from=builder /app/build /usr/share/nginx/html

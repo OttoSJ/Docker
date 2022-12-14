@@ -4,6 +4,6 @@ services:
     image: "redis" # <== This is already in the local docker hub
   node-app:
     restart: on-failure
-    build: . # <== This is being built from the Dockerfile inside this app
+    build: . # <== Specifies where to locate the Dockerfile
     ports:
       - "5000:5000"
